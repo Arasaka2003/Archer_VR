@@ -9,6 +9,7 @@ public class TargetManager : MonoBehaviour
     [SerializeField] private Transform[] _spawnPoints;
     [SerializeField] private Transform[] _movePoints;
     [SerializeField] private TextMeshProUGUI _scoreText;
+    [SerializeField] private float Speed = 1;
     private List<int> _targetInstances = new List<int>();
     [SerializeField] private float _spawnTime;
     private static System.Random rng = new System.Random();
@@ -25,6 +26,7 @@ public class TargetManager : MonoBehaviour
             var instance = _objectPool.GetObject();
             instance.transform.position = _spawnPoints[rng.Next(0, _spawnPoints.Length - 1)].position;
             var targetHandle = instance.GetComponentInChildren<TargetHandle>();
+            targetHandle.SetupSpeed(Speed);
             targetHandle.OnHit += RemoveFromList;
             targetHandle.OnUpdateScore += IncreaseScore;
             Shuffle(_movePoints);

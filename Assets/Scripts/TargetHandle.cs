@@ -16,7 +16,8 @@ public class TargetHandle : MonoBehaviour
     private Rigidbody _rb;
     private readonly string _arrowTag = "Arrow";
     private bool _canMove=true;
-    private Random random= new Random();
+    private Random _random= new Random();
+    private float _speed;
     private void Start()
     {
         _rb = GetComponent<Rigidbody>();
@@ -24,16 +25,20 @@ public class TargetHandle : MonoBehaviour
     }
     private void OnEnable()
     {
-        if(random.Next(0,10)>5)
+        if(_random.Next(0,10)>5)
         _canMove = true;
         else 
         _canMove = false;
+    }
+    public void SetupSpeed(float speed)
+    {
+        _speed = speed;
     }
     private void Update()
     {
         if (!_canMove)
             return;
-        transform.position = Vector3.MoveTowards(transform.position, _currentPoint.position, 1 * Time.deltaTime);
+        transform.position = Vector3.MoveTowards(transform.position, _currentPoint.position,_speed * Time.deltaTime) ;
         if (Vector3.Distance(transform.position, _currentPoint.position) < 1)
             MoveToNext();
     }
